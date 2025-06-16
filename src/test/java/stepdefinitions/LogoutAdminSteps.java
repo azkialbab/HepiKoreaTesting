@@ -4,58 +4,43 @@ import io.cucumber.java.en.*;
 import org.example.AdminDashboardPage;
 import org.example.HomePage;
 import org.example.LoginPage;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-
 import static org.junit.Assert.*;
 
 public class LogoutAdminSteps {
     WebDriver driver = BaseSteps.driver;
-    HomePage homePage;
     LoginPage loginPage;
     AdminDashboardPage adminDashboardPage;
+    HomePage homePage;
 
-    @And("admin sudah login ke dashboard dari homepage")
-    public void admin_login_dari_homepage() {
-        homePage = new HomePage(driver);
-        homePage.clickLogin();
+    @Given("user telah melakukan login sebagai admin")
+    public void user_telah_melakukan_login_sebagai_admin() {
+        driver = BaseSteps.driver;
         loginPage = new LoginPage(driver);
-        loginPage.enterEmail("admin@admin.com");
-        loginPage.enterPassword("123");
-        loginPage.clickLogin();
-    }
-
-    @Given("admin berada di halaman dashboard")
-    public void admin_di_dashboard() {
         adminDashboardPage = new AdminDashboardPage(driver);
-        assertTrue(driver.getCurrentUrl().contains("/dashboard"));
+
+        loginPage.navigateToLoginPage(); // Pindahkan dari static ke instance
+        loginPage.loginAsAdmin("admin@example.com", "passwordAdmin");
     }
 
-    @When("admin mengklik tombol Logout")
-    public void admin_klik_logout() {
+    @Given("user berada di dashboard admin")
+    public void user_berada_di_dashboard_admin() {
+        assertTrue(adminDashboardPage.isDashboardVisible());
+    }
+
+    @When("user memilih tombol Logout")
+    public void user_memilih_tombol_logout() {
         adminDashboardPage.clickLogoutButton();
     }
 
-    @And("admin mengkonfirmasi logout")
-    public void admin_konfirmasi_logout() {
+    @When("user memilih tombol confirm logout")
+    public void user_memilih_tombol_confirm_logout() {
         adminDashboardPage.confirmLogout();
     }
 
-    @Then("admin kembali ke homepage dan melihat tombol login")
-    public void admin_kembali_ke_homepage() {
-        assertTrue(driver.getCurrentUrl().contains("/home"));
-        assertTrue(driver.findElement(By.id("btn-login")).isDisplayed());
-        driver.quit();
-    }
-
-    @And("admin membatalkan logout")
-    public void admin_cancel_logout() {
-        adminDashboardPage.cancelLogout();
-    }
-
-    @Then("admin tetap berada di dashboard")
-    public void admin_tetap_di_dashboard() {
-        assertTrue(driver.getCurrentUrl().contains("/dashboard"));
-        driver.quit();
+    @Then("user akan kembali ke halaman homepage dan menampilkan tombol login pada navigation bar")
+    public void user_akan_kembali_ke_halaman_homepage_dan_menampilkan_tombol_login_pada_navigation_bar() {
+        homePage = new HomePage(driver);
+        assertTrue(homePage.isLoginButtonVisible());
     }
 }

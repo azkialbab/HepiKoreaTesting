@@ -1,72 +1,73 @@
 package stepdefinitions;
 
 import io.cucumber.java.en.*;
-import org.example.HomePage;
-import org.example.ProductPage;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.*;
+
+import java.time.Duration;
 
 import static org.junit.Assert.*;
 
 public class ProductFilterSteps {
 
     WebDriver driver = BaseSteps.driver;
-    HomePage homePage;
-    ProductPage productPage;
-
-    @Given("pengguna membuka platform HepiKorea")
-    public void pengguna_membuka_platform_hepi_korea() {
-        BaseSteps.driver = new org.openqa.selenium.chrome.ChromeDriver();
-        BaseSteps.driver.get("https://hepikorea.pad19.me");
-        driver = BaseSteps.driver;
-    }
+    WebDriverWait wait;
 
     @When("pengguna memilih tab Product pada navigation bar")
-    public void pengguna_memilih_tab_product_pada_navigation_bar() {
-        homePage = new HomePage(driver);
-        homePage.clickProductTab();
-        productPage = new ProductPage(driver);
+    public void pengguna_memilih_tab_product() {
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement productTab = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(@href, '/product')]")));
+        productTab.click();
+        wait.until(ExpectedConditions.urlContains("/product"));
     }
 
     @And("user memilih kategori {string}")
     public void user_memilih_kategori(String category) {
-        if (category != null && !category.trim().isEmpty()) {
-            productPage.selectCategory(category);
+        if (!category.isEmpty()) {
+            WebElement categoryDropdown = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("categoryFilter")));
+            Select select = new Select(categoryDropdown);
+            select.selectByVisibleText(category);
         }
     }
 
     @And("user memasukan minimum price {string}")
     public void user_memasukan_minimum_price(String minPrice) {
-        if (minPrice != null && !minPrice.trim().isEmpty()) {
-            productPage.setMinPrice(minPrice);
+        WebElement minPriceInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("minPrice")));
+        minPriceInput.clear();
+        if (!minPrice.isEmpty()) {
+            minPriceInput.sendKeys(minPrice);
         }
     }
 
     @And("user memasukan maximum price {string}")
     public void user_memasukan_maximum_price(String maxPrice) {
-        if (maxPrice != null && !maxPrice.trim().isEmpty()) {
-            productPage.setMaxPrice(maxPrice);
+        WebElement maxPriceInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("maxPrice")));
+        maxPriceInput.clear();
+        if (!maxPrice.isEmpty()) {
+            maxPriceInput.sendKeys(maxPrice);
         }
     }
 
     @And("user memilih sort by {string}")
     public void user_memilih_sort_by(String sortBy) {
-        if (sortBy != null && !sortBy.trim().isEmpty()) {
-            productPage.selectSortBy(sortBy);
+        if (!sortBy.isEmpty()) {
+            WebElement sortByDropdown = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("sortBy")));
+            Select select = new Select(sortByDropdown);
+            select.selectByVisibleText(sortBy);
         }
-        productPage.applyFilter();
     }
 
     @Then("sistem mengirimkan respon {string}")
     public void sistem_mengirimkan_respon(String expectedResult) {
-        boolean isFound = productPage.isProductFound();
-        String expected = expectedResult.toLowerCase();
-
-        if (expected.contains("not found") || expected.contains("tidak")) {
-            assertFalse("Produk seharusnya tidak ditemukan", isFound);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        if (expectedResult.toLowerCase().contains("not found")) {
+            WebElement notFoundText = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//*[contains(text(), 'Product Not Found') or contains(text(), 'Produk not Found')]")));
+            assertTrue(notFoundText.isDisplayed());
         } else {
-            assertTrue("Produk seharusnya ditampilkan", isFound);
+            WebElement productCard = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                    By.cssSelector(".product-card")));
+            assertTrue(productCard.isDisplayed());
         }
-
-        driver.quit();
     }
 }

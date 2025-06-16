@@ -2,6 +2,7 @@ package stepdefinitions;
 
 import io.cucumber.java.en.*;
 import org.example.AdminDashboardPage;
+import org.example.LoginPage;
 import org.example.OrderPage;
 import org.openqa.selenium.WebDriver;
 
@@ -14,10 +15,14 @@ public class SentProductSteps {
 
     @Given("admin telah login dan berada di dashboard untuk proses pesanan")
     public void admin_login_di_dashboard_proses() {
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.navigateToLoginPage(); // buka halaman login
+        loginPage.loginAsAdmin("admin@admin.com", "123"); // login
+
         adminDashboardPage = new AdminDashboardPage(driver);
-        adminDashboardPage.loginAsAdmin("admin@admin.com", "123");
         assertTrue(driver.getCurrentUrl().contains("dashboard"));
     }
+
 
     @When("admin memilih tab Order pada sidebar")
     public void admin_pilih_tab_order_sidebar() {

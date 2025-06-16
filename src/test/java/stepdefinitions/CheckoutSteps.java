@@ -64,7 +64,7 @@ public class CheckoutSteps {
         addressDropdown.findElement(By.xpath("//option[2]")).click(); // pilih alamat kedua
     }
 
-    @And("user memilih jumlah produk")
+    @And("user memilih jumlah produk di halaman checkout")
     public void user_pilih_jumlah_produk() {
         WebElement quantityInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@type='number']")));
         quantityInput.clear();

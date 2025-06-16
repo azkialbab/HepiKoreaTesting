@@ -1,52 +1,53 @@
 Feature: Product Detail
-  Pengujian fitur Product Detail oleh user
+  Pengujian fitur halaman detail produk oleh user pada platform HepiKorea.
 
   Background:
-    Given user berada di halaman homepage untuk produk
+    Given user berada di halaman homepage
 
-  Scenario: Menambahkan produk yang valid dari homepage
-    When user memilih produk bernama "Uniqlo"
+  Scenario: Berhasil menambahkan produk dari homepage
+    When user memilih produk bernama "Uniqlo" dari homepage
     And user mengklik tombol Buy Produk
-    Then user akan diarahkan ke halaman product detail
-    And user memilih jumlah produk
+    Then user diarahkan ke halaman Detail Produk
+    And user memilih jumlah produk yang valid
     And user mengklik tombol Add to Cart
-    Then produk disimpan dan ditampilkan di cart
+    Then produk disimpan dan ditampilkan di halaman Cart
 
-  Scenario: Menambahkan produk yang valid dari halaman product
+  Scenario: Berhasil menambahkan produk dari halaman daftar produk
     When user membuka tab Product dari navbar
-    Then user masuk ke halaman daftar produk
+    Then user diarahkan ke halaman daftar produk
     And user memilih produk bernama "Uniqlo"
     And user mengklik tombol Buy Produk
-    Then user akan diarahkan ke halaman product detail
-    And user memilih jumlah produk
+    Then user diarahkan ke halaman Detail Produk
+    And user memilih jumlah produk yang valid
     And user mengklik tombol Add to Cart
-    Then produk disimpan dan ditampilkan di cart
+    Then produk disimpan dan ditampilkan di halaman Cart
 
-  Scenario: Melihat detail produk yang tidak ada dari homepage
-    When user memilih produk bernama "Rolex"
+  Scenario: Gagal melihat detail produk yang tidak tersedia dari homepage
+    When user memilih produk bernama "Rolex" dari homepage
     And user mengklik tombol Buy Produk
-    Then produk tidak ditemukan di halaman product detail
+    Then sistem menampilkan pesan error "Produk tidak ditemukan"
 
-  Scenario: Melihat detail produk yang tidak ada dari halaman product
-    When pengguna klik tab Product dari navbar
+  Scenario: Gagal melihat detail produk yang tidak tersedia dari halaman daftar produk
+    When user membuka tab Product dari navbar
+    Then user diarahkan ke halaman daftar produk
     And user memilih produk bernama "Rolex"
     And user mengklik tombol Buy Produk
-    Then produk tidak ditemukan di halaman product detail
+    Then sistem menampilkan pesan error "Produk tidak ditemukan"
 
-  Scenario: Gagal menambahkan produk karena keranjang penuh dari homepage
-    When user memilih produk bernama "Uniqlo"
+  Scenario: Gagal menambahkan produk karena melebihi kapasitas keranjang dari homepage
+    When user memilih produk bernama "Uniqlo" dari homepage
     And user mengklik tombol Buy Produk
-    Then user akan diarahkan ke halaman product detail
-    And user memilih jumlah produk di halaman detail
+    Then user diarahkan ke halaman Detail Produk
+    And user memilih jumlah produk melebihi kapasitas keranjang
     And user mengklik tombol Add to Cart
-    Then produk gagal ditambahkan ke cart
+    Then sistem menampilkan pesan error "Jumlah melebihi kapasitas keranjang"
 
-  Scenario: Gagal menambahkan produk karena keranjang penuh dari halaman product
+  Scenario: Gagal menambahkan produk karena melebihi kapasitas keranjang dari halaman daftar produk
     When user membuka tab Product dari navbar
-    Then user masuk ke halaman daftar produk
+    Then user diarahkan ke halaman daftar produk
     And user memilih produk bernama "Uniqlo"
     And user mengklik tombol Buy Produk
-    Then user akan diarahkan ke halaman product detail
-    And user memilih jumlah produk
+    Then user diarahkan ke halaman Detail Produk
+    And user memilih jumlah produk melebihi kapasitas keranjang
     And user mengklik tombol Add to Cart
-    Then produk gagal ditambahkan ke cart
+    Then sistem menampilkan pesan error "Jumlah melebihi kapasitas keranjang"

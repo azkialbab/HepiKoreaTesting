@@ -1,64 +1,60 @@
 package org.example;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.By;
 
-// ProductPage
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+
 public class ProductPage {
-    WebDriver driver;
+
+    private WebDriver driver;
+    private WebDriverWait wait;
+
+    private final By productTab = By.xpath("//a[contains(@href, '/product')]");
+    private final By searchBar = By.cssSelector("input[type='text']");
+    private final By searchButton = By.id("btn-search");
+    private final By searchResultCard = By.cssSelector(".product-card");
+    private final By noProductText = By.xpath("//*[contains(text(),'Produk tidak ditemukan')]");
 
     public ProductPage(WebDriver driver) {
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-    By categoryDropdown = By.id("filter-category");
-    By minPriceField = By.id("min-price");
-    By maxPriceField = By.id("max-price");
-    By sortByDropdown = By.id("sort-by");
-    By applyFilterButton = By.id("apply-filter");
-    By notFoundText = By.id("product-not-found");
+    public void clickProductTab() {
+        wait.until(ExpectedConditions.elementToBeClickable(productTab)).click();
+    }
 
-    // Untuk fitur filter
-    public void selectCategory(String category) {
-        if (!category.isEmpty()) {
-            driver.findElement(categoryDropdown).sendKeys(category);
+    public void focusSearchBar() {
+        wait.until(ExpectedConditions.elementToBeClickable(searchBar)).click();
+    }
+
+    public void enterSearchKeyword(String keyword) {
+        WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(searchBar));
+        input.clear();
+        input.sendKeys(keyword);
+    }
+
+    public void clickSearch() {
+        wait.until(ExpectedConditions.elementToBeClickable(searchButton)).click();
+    }
+
+    public boolean isSearchResultVisible() {
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(searchResultCard));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
         }
     }
 
-    public void setMinPrice(String price) {
-        if (!price.isEmpty()) {
-            driver.findElement(minPriceField).clear();
-            driver.findElement(minPriceField).sendKeys(price);
+    public boolean isNoProductFoundMessageVisible() {
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(noProductText));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
         }
-    }
-
-    public void setMaxPrice(String price) {
-        if (!price.isEmpty()) {
-            driver.findElement(maxPriceField).clear();
-            driver.findElement(maxPriceField).sendKeys(price);
-        }
-    }
-
-    public void selectSortBy(String sortBy) {
-        if (!sortBy.isEmpty()) {
-            driver.findElement(sortByDropdown).sendKeys(sortBy);
-        }
-    }
-
-    public void applyFilter() {
-        driver.findElement(applyFilterButton).click();
-    }
-
-    public boolean isProductFound() {
-        // Jika elemen 'not found' tidak muncul, maka produk ditemukan
-        return driver.findElements(notFoundText).isEmpty();
-    }
-
-    // Tambahan: untuk klik produk berdasarkan nama
-    public void selectProductByName(String productName) {
-        driver.findElement(By.xpath("//h5[text()='" + productName + "']")).click();
-    }
-
-    public void clickBuy(String productName) {
-        driver.findElement(By.xpath("//h5[text()='" + productName + "']/../..//button[contains(text(),'Buy')]")).click();
     }
 }

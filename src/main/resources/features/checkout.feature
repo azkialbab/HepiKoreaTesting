@@ -1,43 +1,41 @@
 Feature: Checkout Produk
+  Pengujian fitur checkout oleh customer pada platform HepiKorea.
 
   Background:
     Given user membuka platform HepiKorea
     And user telah melakukan login sebagai customer
-    And user berada di halaman utama setelah login
+    And user berada di halaman homepage setelah login
 
-  Scenario: melakukan checkout produk dari cart
+  Scenario: Berhasil melakukan checkout produk dari halaman Cart
     When user memilih tab Cart pada navigation bar
-    Then user akan diarahkan ke dalam halaman keranjang
-    And user memilih produk yang ingin di bayar
+    Then user diarahkan ke halaman Cart
+    And user memilih produk yang ingin dibayar
     And user mengklik tombol Checkout
-    Then user akan diarahkan ke dalam halaman checkout
+    Then user diarahkan ke halaman Checkout
     And user memilih alamat pengiriman
-    And user memilih jumlah produk
-    And user memilih tombol checkout
+    And user memilih jumlah produk di halaman Checkout
+    And user mengklik tombol Checkout untuk melanjutkan
     And user memilih metode pembayaran
-    And user memilih tombol pay
-    Then user diarahkan ke dalam halaman pembayaran
+    And user mengklik tombol Pay
+    Then user diarahkan ke halaman Pembayaran
 
-
-  Scenario: melakukan checkout produk dari halaman produk detail
-    Given user berada di halaman homepage
-    When user memilih produk "Uniqlo" dari homepage
+  Scenario: Berhasil melakukan checkout produk dari halaman Detail Produk
+    When user memilih produk bernama "Uniqlo" dari homepage
     And user mengklik tombol Buy
-    Then user akan diarahkan ke dalam halaman product detail
-    And user memilih jumlah product di halaman product detail
+    Then user diarahkan ke halaman Detail Produk
+    And user memilih jumlah produk di halaman Detail Produk
     And user mengklik tombol Buy Now
-    Then user akan diarahkan ke dalam halaman checkout
+    Then user diarahkan ke halaman Checkout
     And user memilih alamat pengiriman
-    And user memilih jumlah produk
-    And user memilih tombol checkout
+    And user memilih jumlah produk di halaman Checkout
+    And user mengklik tombol Checkout untuk melanjutkan
     And user memilih metode pembayaran
-    And user memilih tombol pay
-    Then user diarahkan ke dalam halaman pembayaran
+    And user mengklik tombol Pay
+    Then user diarahkan ke halaman Pembayaran
 
-  Scenario: Gagal melakukan checkout produk dari cart
-    Given user berada di homepage
+  Scenario: Gagal melakukan checkout dari halaman Cart karena sistem error
     When user memilih tab Cart pada navigation bar
-    Then user akan diarahkan ke dalam halaman keranjang
-    And user memilih produk yang ingin di bayar
+    Then user diarahkan ke halaman Cart
+    And user memilih produk yang ingin dibayar
     And user mengklik tombol Checkout
-    Then sistem tidak mengarahkan user ke dalam halaman checkout
+    Then sistem tidak mengarahkan user ke halaman Checkout

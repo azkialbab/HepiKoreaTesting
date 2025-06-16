@@ -15,12 +15,15 @@ public class LoginPage {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-    // Ganti locator jika perlu berdasarkan hasil inspect di browser
-    By emailField = By.xpath("//input[@type='email']");
-    By passwordField = By.xpath("//input[@type='password']");
+    By emailField = By.xpath("//*[@id=\"app\"]/main/div/form/div[1]/input");
+    By passwordField = By.xpath("//*[@id=\"password\"]");
     By loginButton = By.xpath("//*[@id=\"app\"]/main/div/form/button");
     By registerLink = By.xpath("//*[@id=\"app\"]/main/div/p/a");
     By loginWithGoogleButton = By.xpath("//*[@id=\"app\"]/main/div/a");
+
+    public void navigateToLoginPage() {
+        driver.get("https://hepikorea.pad19.me/login"); // Sesuaikan dengan URL login sebenarnya
+    }
 
     public void enterEmail(String email) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(emailField)).sendKeys(email);
@@ -40,5 +43,11 @@ public class LoginPage {
 
     public void clickLoginWithGoogle() {
         wait.until(ExpectedConditions.elementToBeClickable(loginWithGoogleButton)).click();
+    }
+
+    public void loginAsAdmin(String email, String password) {
+        enterEmail(email);
+        enterPassword(password);
+        clickLogin();
     }
 }

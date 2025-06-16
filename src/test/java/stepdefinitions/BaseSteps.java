@@ -13,18 +13,21 @@ public class BaseSteps {
 
     @Given("user membuka platform HepiKorea")
     public void user_membuka_platform_hepikorea() {
-        // Setup ChromeOptions
-        ChromeOptions options = new ChromeOptions();
+        if (driver == null) {
+            ChromeOptions options = new ChromeOptions();
 
-        // Nonaktifkan save password popup
-        Map<String, Object> prefs = new HashMap<>();
-        prefs.put("credentials_enable_service", false);
-        prefs.put("profile.password_manager_enabled", false);
-        options.setExperimentalOption("prefs", prefs);
+            // Nonaktifkan popup penyimpanan password
+            Map<String, Object> prefs = new HashMap<>();
+            prefs.put("credentials_enable_service", false);
+            prefs.put("profile.password_manager_enabled", false);
+            options.setExperimentalOption("prefs", prefs);
 
-        // Inisialisasi WebDriver dengan opsi
-        driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
-        driver.get("https://hepikorea.pad19.me");
+            // Inisialisasi driver
+            driver = new ChromeDriver(options);
+            driver.manage().window().maximize();
+        }
+
+        // Selalu buka URL meskipun driver sudah ada (biar tidak stuck di halaman lain)
+        driver.get("https://hepikorea.pad19.me/");
     }
 }

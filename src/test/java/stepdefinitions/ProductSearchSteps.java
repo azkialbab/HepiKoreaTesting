@@ -1,51 +1,50 @@
 package stepdefinitions;
 
 import io.cucumber.java.en.*;
-import org.example.HomePage;
 import org.example.ProductPage;
-import org.openqa.selenium.WebDriver;
+import org.junit.Assert;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static org.junit.Assert.*;
+import java.time.Duration;
+
+import static stepdefinitions.BaseSteps.driver;
 
 public class ProductSearchSteps {
 
-    WebDriver driver = BaseSteps.driver;
-    HomePage homePage;
-    ProductPage productPage;
+    ProductPage productPage = new ProductPage(driver);
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-    @Given("user berada di homepage untuk pencarian produk")
-    public void user_berada_di_homepage_search() {
-        homePage = new HomePage(driver);
-    }
-
-    @When("user membuka tab Product untuk pencarian")
-    public void pengguna_memilih_tab_product_search() {
-        homePage.clickProductTab();
-        productPage = new ProductPage(driver);
+    @When("user membuka halaman product dari navbar untuk pencarian")
+    public void user_membuka_halaman_product_dari_navbar_untuk_pencarian() {
+        productPage.clickProductTab();
     }
 
     @And("user memilih searchbar")
     public void user_memilih_searchbar() {
-        // Optional step; can focus or clear the search bar if needed
+        productPage.focusSearchBar();
     }
 
     @And("user memasukan kata kunci produk {string}")
-    public void user_memasukan_kata_kunci_produk(String keyword) {
-        homePage.enterSearch(keyword);
+    public void user_memasukan_kata_kunci(String keyword) {
+        productPage.enterSearchKeyword(keyword);
     }
 
     @And("user mengklik tombol Search")
     public void user_mengklik_tombol_search() {
-        homePage.clickSearch();
+        productPage.clickSearch();
     }
 
-    @Then("sistem menampilkan hasil pencarian produk")
+    @Then("sistem menampilkan hasil pencarian")
     public void sistem_menampilkan_hasil_pencarian() {
-        assertTrue("Produk seharusnya ditampilkan", productPage.isProductFound());
+        boolean resultsVisible = productPage.isSearchResultVisible();
+        Assert.assertTrue("Produk tidak ditemukan padahal seharusnya ada", resultsVisible);
     }
 
-    @Then("sistem tidak menampilkan produk hasil pencarian")
+    @Then("sistem tidak menampilkan produk apapun")
     public void sistem_tidak_menampilkan_produk_apapun() {
-        assertFalse("Produk tidak seharusnya ditemukan", productPage.isProductFound());
+        boolean noResults = productPage.isNoProductFoundMessageVisible();
+        Assert.assertTrue("Seharusnya tidak ada produk yang ditampilkan", noResults);
     }
 }

@@ -5,6 +5,7 @@ Feature: User Google Login
     Given user berada di halaman login untuk Google
 
   Scenario Outline: Login menggunakan Google Account
+    Given user berada di halaman login Google
     When user klik tombol Google Sign-In
     And user pilih akun Google "<Google Account>"
     And user konfirmasi login Google

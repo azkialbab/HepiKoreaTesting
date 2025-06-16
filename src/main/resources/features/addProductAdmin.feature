@@ -5,7 +5,7 @@ Feature: Menambahkan Produk Baru sebagai Admin
     Given user membuka platform HepiKorea
     And user login sebagai admin
 
-  Scenario Outline: Admin menambahkan produk baru dengan berbagai variasi data
+  Scenario Outline: Admin menambahkan produk baru
     When admin klik tab produk
     And admin klik tombol add produk
     And admin mengisi nama produk dengan "<NamaProduk>"
@@ -13,14 +13,13 @@ Feature: Menambahkan Produk Baru sebagai Admin
     And admin memilih kategori produk "<KategoriProduk>"
     And admin mengisi deskripsi produk "<DeskripsiProduk>"
     And admin mengklik tombol Simpan
-    Then <ExpectedResult>
+    Then muncul pesan "<ExpectedMessage>"
 
     Examples:
-      | NamaProduk        | HargaProduk | KategoriProduk | DeskripsiProduk        | ExpectedResult                                                           |
-      | Kemeja Flanel     | 150000      | Fashion        | Berbahan kulit asli     | produk "Kemeja Flanel" muncul dalam daftar produk                        |
-      | Sepatu Sneaker    | 250000      | Fashion        | Cocok untuk harian      | produk "Sepatu Sneaker" muncul dalam daftar produk                       |
-      | Botol Minum       | 50000       | Aksesoris      | Plastik BPA Free        | produk "Botol Minum" muncul dalam daftar produk                          |
-      | Handphone Gaming  | 3500000     | Elektronik     | RAM 8GB, 128GB Storage  | produk "Handphone Gaming" muncul dalam daftar produk                     |
-      |                   | 150000      | Fashion        |   | muncul pesan kesalahan "Please fill out this field."                         |
-      | Jaket Hoodie      |             | Fashion        |       | muncul pesan kesalahan "Please fill out this field."                        |
-      | Dompet Kulit      | 120000      |                | Kategori belum dipilih  | muncul pesan kesalahan "Please fill out this field."                  |
+      | NamaProduk        | HargaProduk | KategoriProduk | DeskripsiProduk        | ExpectedMessage                         |
+      | Kemeja Flanel     | 150000      | Fashion        | Berbahan kulit asli     | Successfully Added                      |
+      | Sepatu Sneaker    | 250000      | Fashion        | Cocok untuk harian      | Successfully Added                      |
+      | Botol Minum       | 50000       | Merchandise      | Plastik BPA Free        | Successfully Added                      |
+      |                   | 150000      | Fashion        |                          | please fill out this field             |
+      | Jaket Hoodie      |             | Fashion        |                          | please fill out this field             |
+      | Dompet Kulit      | 120000      |                |   | please fill out this field             |

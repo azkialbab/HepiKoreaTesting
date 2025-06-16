@@ -15,10 +15,12 @@ public class AdminDashboardPage {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
 
+    By profileIcon = By.xpath("//*[@id=\"app\"]/nav/div/div/div[2]/div/div[1]/button/img");
     By logoutButton = By.xpath("//*[@id=\"default-sidebar\"]/div/ul[2]/li/a");
     By confirmButton = By.id("btn-confirm-logout");
     By cancelButton = By.id("btn-cancel-logout");
     By orderTab = By.id("sidebar-order");
+    By prodductTab = By.xpath("//*[@id=\"default-sidebar\"]/div/ul[1]/li[2]/a");
 
     public void clickLogoutButton() {
         wait.until(ExpectedConditions.elementToBeClickable(logoutButton)).click();
@@ -30,6 +32,12 @@ public class AdminDashboardPage {
 
     public void cancelLogout() {
         wait.until(ExpectedConditions.elementToBeClickable(cancelButton)).click();
+    }
+    public void clickProfileIcon() {
+        wait.until(ExpectedConditions.elementToBeClickable(profileIcon)).click();
+    }
+    public boolean isProfileIconVisible() {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(profileIcon)).isDisplayed();
     }
 
     public void clickOrderSidebar() {

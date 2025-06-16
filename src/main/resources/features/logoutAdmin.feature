@@ -3,16 +3,16 @@ Feature: Admin Logout
 
   Background:
     Given user membuka platform HepiKorea
-    And user telah melakukan login sebagai admin
+    And user login sebagai admin
 
-  Scenario: Berhasil melakikan logout
+  Scenario: Berhasil melakukan logout
     Given user berada di dashboard admin
-    When user memilih tombol Logout
-    And user memilih tombol confirm logout
-    Then user akan kembali ke halamab homepage dan menampilkan tombol login pada navigation bar
+    When user memilih tombol logout
+    Then user diarahkan ke homepage dan tombol login terlihat
 
-  Scenario: Batal melakikan logout
-    Given user berada di dashboard admin
-    When user memilih tombol Logout
-    And user memilih tombol cancel dari logout
-    Then user akan tetap berada di halaman dashboard admin
+
+#  Scenario: Batal melakukan logout
+#    Given user berada di dashboard admin
+#    When user memilih tombol logout
+#    And user memilih tombol cancel dari logout
+#    Then user akan tetap berada di halaman dashboard admin

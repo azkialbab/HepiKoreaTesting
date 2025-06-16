@@ -2,71 +2,24 @@ package org.example;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> origin/master
 import org.openqa.selenium.WebElement;
 
+public class CheckoutPage {
 
+    WebDriver driver;
 
-    public class CheckoutPage {
-        WebDriver driver;
-
-        public CheckoutPage(WebDriver driver) {
-            this.driver = driver;
-        }
-
-        By addressDropdown = By.id("address");
-        By productQty = By.name("qty");
-        By checkoutButton = By.id("btn-checkout-final");
-        By paymentMethod = By.name("paymentMethod");
-        By payButton = By.id("btn-pay");
-
-        public void selectAddress() {
-            driver.findElement(addressDropdown).click();
-        }
-
-        public void enterQuantity(String qty) {
-            WebElement qtyField = driver.findElement(productQty);
-            qtyField.clear(); // Pastikan kosong dulu
-            qtyField.sendKeys(qty);
-        }
-
-        public void clickFinalCheckout() {
-            driver.findElement(checkoutButton).click();
-        }
-
-        public void selectPaymentMethod() {
-            driver.findElement(paymentMethod).click();
-        }
-
-        public void clickPay() {
-            driver.findElement(payButton).click();
-        }
-
-        public boolean isAtCheckoutPage() {
-            return driver.getCurrentUrl().contains("/checkout");
-        }
+    // Constructor
+    public CheckoutPage(WebDriver driver) {
+        this.driver = driver;
     }
-<<<<<<< HEAD
-=======
 
     // Locators
-=======
-
-public class CheckoutPage {
-    WebDriver driver;
-    public CheckoutPage(WebDriver driver) { this.driver = driver; }
-
->>>>>>> 8e31d4374b7e76e4acea775f0ed31294b99ee066
     By addressDropdown = By.id("address");
     By productQty = By.name("qty");
     By checkoutButton = By.id("btn-checkout-final");
     By paymentMethod = By.name("paymentMethod");
     By payButton = By.id("btn-pay");
 
-<<<<<<< HEAD
     // Actions
     public void selectAddress() {
         driver.findElement(addressDropdown).click();
@@ -74,7 +27,7 @@ public class CheckoutPage {
 
     public void enterQuantity(String qty) {
         WebElement qtyField = driver.findElement(productQty);
-        qtyField.clear(); // Pastikan kosong dulu
+        qtyField.clear();
         qtyField.sendKeys(qty);
     }
 
@@ -90,20 +43,8 @@ public class CheckoutPage {
         driver.findElement(payButton).click();
     }
 
-    // Page validation (untuk assertion di step definition)
+    // Validation
     public boolean isAtCheckoutPage() {
-        return driver.getCurrentUrl().contains("/checkout"); // Sesuaikan URL jika perlu
+        return driver.getCurrentUrl().contains("/checkout");
     }
-
-    public boolean isAtPaymentPage() {
-        return driver.getCurrentUrl().contains("/payment"); // Sesuaikan URL jika perlu
-    }
-=======
-    public void selectAddress() { driver.findElement(addressDropdown).click(); }
-    public void enterQuantity(String qty) { driver.findElement(productQty).sendKeys(qty); }
-    public void clickFinalCheckout() { driver.findElement(checkoutButton).click(); }
-    public void selectPaymentMethod() { driver.findElement(paymentMethod).click(); }
-    public void clickPay() { driver.findElement(payButton).click(); }
->>>>>>> 8e31d4374b7e76e4acea775f0ed31294b99ee066
 }
->>>>>>> origin/master

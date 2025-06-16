@@ -37,17 +37,8 @@ Feature: Product Detail
   Scenario: Gagal menambahkan produk karena melebihi kapasitas keranjang dari homepage
     When user memilih produk bernama "Uniqlo" dari homepage
     And user mengklik tombol Buy Produk
-<<<<<<< HEAD
-    Then user diarahkan ke halaman Detail Produk
-    And user memilih jumlah produk melebihi kapasitas keranjang
-=======
     Then user akan diarahkan ke halaman product detail
-<<<<<<< HEAD
     And user memilih jumlah produk di halaman detail
-=======
-    And user memilih jumlah produk
->>>>>>> 8e31d4374b7e76e4acea775f0ed31294b99ee066
->>>>>>> origin/master
     And user mengklik tombol Add to Cart
     Then sistem menampilkan pesan error "Jumlah melebihi kapasitas keranjang"
 

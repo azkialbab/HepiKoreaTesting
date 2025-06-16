@@ -44,7 +44,6 @@ public class LoginPage {
     public void clickLoginWithGoogle() {
         wait.until(ExpectedConditions.elementToBeClickable(loginWithGoogleButton)).click();
     }
-<<<<<<< HEAD
 
     public void loginAsAdmin(String email, String password) {
         enterEmail(email);
@@ -52,6 +51,3 @@ public class LoginPage {
         clickLogin();
     }
 }
-=======
-}
->>>>>>> origin/master

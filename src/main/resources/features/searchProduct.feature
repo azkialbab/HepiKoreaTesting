@@ -7,7 +7,7 @@ Feature: Product Search
 
   Scenario Outline: mencari produk menggunakan valid keyword
     Given user berada di homepage
-    When user membuka halaman product dari navbar untuk pencarian
+    When pengguna memilih tab Produk melalui homepage
     And user memilih searchbar
     And user memasukan kata kunci produk "<Keyword>"
     And user mengklik tombol Search

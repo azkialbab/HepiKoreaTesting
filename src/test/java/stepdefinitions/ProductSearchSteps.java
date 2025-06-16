@@ -3,8 +3,7 @@ package stepdefinitions;
 import io.cucumber.java.en.*;
 import org.example.ProductPage;
 import org.junit.Assert;
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -13,11 +12,19 @@ import static stepdefinitions.BaseSteps.driver;
 
 public class ProductSearchSteps {
 
-    ProductPage productPage = new ProductPage(driver);
-    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    ProductPage productPage;
+    WebDriverWait wait;
 
-    @When("user membuka halaman product dari navbar untuk pencarian")
-    public void user_membuka_halaman_product_dari_navbar_untuk_pencarian() {
+    @When("user membuka halaman product dari navbar untuk search")
+    public void user_membuka_halaman_product_dari_navbar_untuk_search() {
+        productPage = new ProductPage(driver);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        productPage.clickProductTab();
+    }
+
+    @When("pengguna memilih tab Produk melalui homepage")
+    public void pengguna_memilih_tab_Product_melalui_homepage() {
+        productPage = new ProductPage(driver);
         productPage.clickProductTab();
     }
 

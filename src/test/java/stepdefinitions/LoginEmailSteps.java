@@ -78,8 +78,11 @@ public class LoginEmailSteps {
             assertTrue("Form kosong seharusnya tidak pindah halaman (masih di login)", isStillOnLoginPage);
         } else {
             fail("Respon login tidak sesuai ekspektasi: " + expectedResult);
+<<<<<<< HEAD
         }
+=======
+>>>>>>> origin/master
 
-        driver.quit();
+        }
     }
 }

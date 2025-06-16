@@ -43,10 +43,49 @@ public class ProductDetailSteps {
         assertTrue(driver.getCurrentUrl().contains("/home"));
     }
 
+<<<<<<< HEAD
     @When("user memilih produk bernama {string} dari homepage")
     public void user_memilih_produk_dari_homepage(String namaProduk) {
         WebElement produk = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//h5[text()='" + namaProduk + "']")));
         produk.click();
+=======
+    @When("user memilih produk bernama {string}")
+    public void pilih_produk(String productName) {
+        homePage.enterSearch(productName);
+        homePage.clickSearch();
+    }
+
+    @And("user mengklik tombol Buy Produk")
+    public void click_buy() {
+        driver.findElement(By.id("btn-buy-now")).click();
+    }
+
+    @Then("user akan diarahkan ke halaman product detail")
+    public void diarahkan_ke_detail() {
+        assertTrue(driver.getCurrentUrl().contains("/product/detail"));
+        productDetailPage = new ProductDetailPage(driver);
+    }
+
+<<<<<<< HEAD
+    @And("user memilih jumlah produk di halaman detail")
+=======
+    @And("user memilih jumlah produk")
+>>>>>>> 8e31d4374b7e76e4acea775f0ed31294b99ee066
+    public void pilih_jumlah() {
+        productDetailPage.selectQuantity("1");
+    }
+
+    @And("user mengklik tombol Add to Cart")
+    public void click_add_to_cart() {
+        productDetailPage.clickAddToCart();
+    }
+
+    @Then("produk disimpan dan ditampilkan di cart")
+    public void produk_masuk_keranjang() {
+        homePage.clickCartTab();
+        assertTrue(driver.getPageSource().contains("Uniqlo"));
+        driver.quit();
+>>>>>>> origin/master
     }
 
     @When("user membuka tab Product dari navbar")

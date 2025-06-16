@@ -25,6 +25,8 @@ public class BaseSteps {
         // Inisialisasi WebDriver dengan opsi
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
+        driver = new ChromeDriver();
+        driver.manage().window().maximize(); //
         driver.get("https://hepikorea.pad19.me");
     }
 }

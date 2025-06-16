@@ -37,7 +37,11 @@ Feature: Product Detail
     When user memilih produk bernama "Uniqlo"
     And user mengklik tombol Buy Produk
     Then user akan diarahkan ke halaman product detail
+<<<<<<< HEAD
     And user memilih jumlah produk di halaman detail
+=======
+    And user memilih jumlah produk
+>>>>>>> 8e31d4374b7e76e4acea775f0ed31294b99ee066
     And user mengklik tombol Add to Cart
     Then produk gagal ditambahkan ke cart
 

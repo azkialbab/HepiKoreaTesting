@@ -1,11 +1,22 @@
+<<<<<<< HEAD
 Feature: Checkout Produk
+=======
+Feature: Checkout
+  Pengujian fitur Checkout oleh user
+>>>>>>> 8e31d4374b7e76e4acea775f0ed31294b99ee066
 
   Background:
     Given user membuka platform HepiKorea
     And user telah melakukan login sebagai customer
+<<<<<<< HEAD
     And user berada di halaman utama setelah login
 
   Scenario: melakukan checkout produk dari cart
+=======
+
+  Scenario: melakukan checkout produk dari cart
+    Given user berada di Halaman Homepage
+>>>>>>> 8e31d4374b7e76e4acea775f0ed31294b99ee066
     When user memilih tab Cart pada navigation bar
     Then user akan diarahkan ke dalam halaman keranjang
     And user memilih produk yang ingin di bayar
@@ -18,7 +29,10 @@ Feature: Checkout Produk
     And user memilih tombol pay
     Then user diarahkan ke dalam halaman pembayaran
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8e31d4374b7e76e4acea775f0ed31294b99ee066
   Scenario: melakukan checkout produk dari halaman produk detail
     Given user berada di halaman homepage
     When user memilih produk "Uniqlo" dari homepage

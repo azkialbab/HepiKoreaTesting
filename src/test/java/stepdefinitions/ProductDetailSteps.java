@@ -37,7 +37,11 @@ public class ProductDetailSteps {
         productDetailPage = new ProductDetailPage(driver);
     }
 
+<<<<<<< HEAD
     @And("user memilih jumlah produk di halaman detail")
+=======
+    @And("user memilih jumlah produk")
+>>>>>>> 8e31d4374b7e76e4acea775f0ed31294b99ee066
     public void pilih_jumlah() {
         productDetailPage.selectQuantity("1");
     }

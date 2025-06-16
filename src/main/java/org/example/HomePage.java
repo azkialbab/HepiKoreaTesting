@@ -2,13 +2,17 @@ package org.example;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+<<<<<<< HEAD
 import org.openqa.selenium.WebElement;
+=======
+>>>>>>> 8e31d4374b7e76e4acea775f0ed31294b99ee066
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
 public class HomePage {
+<<<<<<< HEAD
     private final WebDriver driver;
     private final WebDriverWait wait;
 
@@ -20,11 +24,30 @@ public class HomePage {
     private final By cartTab = By.xpath("//a[contains(@href,'/cart')]");
     private final By profilePicTab = By.cssSelector("#user-profile-container button");
     private final By logoutButton = By.xpath("//a[normalize-space()='Logout']");
+=======
+    WebDriver driver;
+    WebDriverWait wait;
+
+    public HomePage(WebDriver driver) {
+        this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Tunggu max 10 detik
+    }
+
+    // ===== Locators =====
+    private final By loginButton = By.id("btn-login");
+    private final By productTab = By.xpath("//a[contains(text(),'Product')]");
+    private final By searchBar = By.name("search");
+    private final By searchButton = By.id("btn-search");
+    private final By cartTab = By.id("tab-cart");
+    private final By profilePicTab = By.id("tab-profile");
+    private final By logoutButton = By.id("btn-logout");
+>>>>>>> 8e31d4374b7e76e4acea775f0ed31294b99ee066
     private final By confirmLogoutButton = By.id("btn-logout-confirm");
     private final By cancelLogoutButton = By.id("btn-logout-cancel");
     private final By profileDropdown = By.id("dropdown-profile");
     private final By historyTab = By.id("dropdown-history");
 
+<<<<<<< HEAD
     public HomePage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(30));
@@ -33,6 +56,11 @@ public class HomePage {
     public void clickLogin() {
         WebElement btn = wait.until(ExpectedConditions.elementToBeClickable(loginButton));
         btn.click();
+=======
+    // ===== Actions with Waits =====
+    public void clickLogin() {
+        wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
+>>>>>>> 8e31d4374b7e76e4acea775f0ed31294b99ee066
     }
 
     public void clickProductTab() {
@@ -40,9 +68,13 @@ public class HomePage {
     }
 
     public void enterSearch(String keyword) {
+<<<<<<< HEAD
         WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(searchBar));
         input.clear();
         input.sendKeys(keyword);
+=======
+        wait.until(ExpectedConditions.visibilityOfElementLocated(searchBar)).sendKeys(keyword);
+>>>>>>> 8e31d4374b7e76e4acea775f0ed31294b99ee066
     }
 
     public void clickSearch() {

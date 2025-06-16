@@ -10,7 +10,11 @@ public class AdminDashboardPage {
         this.driver = driver;
     }
 
+<<<<<<< HEAD
     By logoutButton = By.xpath("//*[@id=\"default-sidebar\"]/div/ul[2]/li/a");
+=======
+    By logoutButton = By.id("btn-logout");
+>>>>>>> 8e31d4374b7e76e4acea775f0ed31294b99ee066
     By confirmButton = By.id("btn-confirm-logout");
     By cancelButton = By.id("btn-cancel-logout");
     By orderTab = By.id("sidebar-order");

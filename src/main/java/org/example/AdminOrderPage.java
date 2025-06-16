@@ -7,7 +7,11 @@ public class AdminOrderPage {
     WebDriver driver;
     public AdminOrderPage(WebDriver driver) { this.driver = driver; }
 
+<<<<<<< HEAD
     By orderTab = By.xpath("//*[@id=\"default-sidebar\"]/div/ul[1]/li[3]/a");
+=======
+    By orderTab = By.id("tab-order");
+>>>>>>> 8e31d4374b7e76e4acea775f0ed31294b99ee066
     By processButton = By.id("btn-process");
     By sentButton = By.id("btn-sent");
     By estArrivalID = By.name("arrivalIndonesia");

@@ -15,16 +15,18 @@ import static org.junit.Assert.assertTrue;
 public class CommonSteps {
 
     public static WebDriver driver = BaseSteps.driver;
+    public static WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
     @Given("user berada di homepage")
     public void user_berada_di_homepage() {
-        driver.get("https://hepikorea.pad19.me");
+        driver.get(BaseSteps.baseUrl);
     }
+
     @Given("user berada di halaman login")
     public void user_berada_di_halaman_login() {
         driver = BaseSteps.driver;
 
-        driver.get("https://hepikorea.pad19.me/auth/login");
+        driver.get(BaseSteps.baseUrl + "/auth/login");
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -37,6 +39,7 @@ public class CommonSteps {
             throw new RuntimeException("Gagal membuka halaman login: " + e.getMessage(), e);
         }
     }
+
     @Given("pengguna membuka platform HepiKorea")
     public void pengguna_membuka_platform_hepi_korea() {
         // Inisialisasi browser jika belum ada
@@ -45,13 +48,14 @@ public class CommonSteps {
         }
 
         driver.manage().window().maximize();
-        driver.get("https://hepikorea.pad19.me"); // ganti dengan URL sebenarnya
+        driver.get(BaseSteps.baseUrl); // ganti dengan URL sebenarnya
     }
+
     @Given("user login sebagai admin")
     public void user_login_sebagai_admin() {
         driver = BaseSteps.driver;
 
-        driver.get("https://hepikorea.pad19.me/auth/login");
+        driver.get(BaseSteps.baseUrl + "/auth/login");
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
@@ -77,6 +81,15 @@ public class CommonSteps {
         } catch (Exception e) {
             throw new RuntimeException("Gagal login sebagai admin: " + e.getMessage(), e);
         }
+    }
+
+    @Given("user telah melakukan login sebagai customers")
+    public void user_login_customers() {
+        driver.get(BaseSteps.baseUrl + "/auth/login");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@placeholder='Email']"))).sendKeys("testuser@example.com");
+        driver.findElement(By.xpath("//input[@placeholder='Password']")).sendKeys("testpassword");
+        driver.findElement(By.xpath("//button[contains(text(),'Login')]")).click();
+        wait.until(ExpectedConditions.urlToBe(BaseSteps.baseUrl + "/"));
     }
 
 }

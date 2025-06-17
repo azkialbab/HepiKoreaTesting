@@ -2,6 +2,7 @@ package org.example;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -20,6 +21,15 @@ public class HistoryPage {
     private final By noOrderText = By.xpath("//*[contains(text(),'Tidak ada pesanan')]");
     private final By errorMessage = By.cssSelector(".error-message"); // optional: update if needed
     private final By confirmArrivalButton = By.xpath("//button[contains(text(),'Confirm Arrival')]");
+
+    private final By payShipmentButton = By.xpath("//button[contains(text(),'Pay Shipment')]");
+    private final By payShipmentModalButton = By.tagName("button");
+    private final By shipmentModalHeader = By.xpath("//h1[contains(text(), 'Detail Shipment')]");
+
+    private final By paymentMethodHeader = By.xpath("//h1[contains(text(), 'Bank')]");
+    private final By mandiriPaymentMethod = By.cssSelector("input[value='mandiri']");
+
+    private final By PaymentModalHeader = By.xpath("//h1[text()='Payment']");
 
     public HistoryPage(WebDriver driver) {
         this.driver = driver;
@@ -70,5 +80,33 @@ public class HistoryPage {
 
     public void clickConfirmArrivalBtn() {
         wait.until(ExpectedConditions.elementToBeClickable(confirmArrivalButton)).click();
+    }
+
+    public void clickPayShipmentButton() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(payShipmentButton)).click();
+    }
+
+    public void clickPayShipmentModalButton() {
+        WebElement shipmentModal = wait.until(ExpectedConditions.visibilityOfElementLocated(shipmentModalHeader))
+                .findElement(By.xpath(".."));
+        WebElement payBtn = shipmentModal.findElement(payShipmentModalButton);
+        payBtn.click();
+    }
+
+    public void clickMandiriPaymentMethod() {
+        WebElement paymentMethodModal = wait.until(ExpectedConditions.visibilityOfElementLocated(paymentMethodHeader))
+                .findElement(By.xpath(".."));
+        wait.until(ExpectedConditions.elementToBeClickable(paymentMethodModal.findElement(mandiriPaymentMethod))).click();
+        wait.until(ExpectedConditions.visibilityOf(paymentMethodModal.findElement(payShipmentModalButton))).click();
+    }
+
+    public boolean isPaymentModalDisplayed() {
+        try {
+            WebElement paymentModal = wait.until(ExpectedConditions.visibilityOfElementLocated(PaymentModalHeader)).findElement(By.xpath(".."));
+            System.out.println(paymentModal.getDomProperty("innerHTML"));
+            return paymentModal.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

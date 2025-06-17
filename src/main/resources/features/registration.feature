@@ -18,9 +18,9 @@ Feature: User Registration
 
     Examples:
       | Fullname | Email                | Password | Confirm Password | Expected_result                                                    |
-      | customer | customer@example.com | test123  | test123          | please fill out this field                           |
-      | customer | customer@example.com | 1        | 1                | please fill out this field         |
-      | ""       | customer@example.com | test123  | test123          | please fill out this field         |
-      | customer | ""                  | test123  | test123          | please fill out this field            |
-      | customer | customer@example.com | ""       | test123          | please fill out this field         |
-      | customer | customer@example.com | test123  | ""               | please fill out this field |
+      | customer | bismillah@example | test123  | test123          | Save Password                           |
+      | customer | customer@example.com | 1        | 1                | The email has already been taken.         |
+      |       | customer@example.com | test123  | test123          | please fill out this field         |
+      | customer |                  | test123  | test123          | please fill out this field            |
+      | customer | customer@example.com |       | test123          | please fill out this field         |
+      | customer | customer@example.com | test123  |               | please fill out this field |

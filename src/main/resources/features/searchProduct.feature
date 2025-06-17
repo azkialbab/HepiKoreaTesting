@@ -5,13 +5,13 @@ Feature: Product Search
   Background:
     Given pengguna membuka platform HepiKorea
 
-  Scenario Outline: mencari produk menggunakan valid keyword
-    Given user berada di homepage
-    When pengguna memilih tab Produk melalui homepage
-    And user memilih searchbar
-    And user memasukan kata kunci produk "<Keyword>"
-    And user mengklik tombol Search
-    Then sistem menampilkan hasil pencarian
+  Scenario Outline: Cari produk dari halaman product
+    Given user berada di halaman produk
+    When user memilih searchbar di halaman produk
+    And user memasukan kata kunci produk "Kemeja" di halaman produk
+    And user mengklik tombol Search di halaman produk
+    Then sistem menampilkan hasil pencarian produk
+
 
     Examples:
       |Keyword  |

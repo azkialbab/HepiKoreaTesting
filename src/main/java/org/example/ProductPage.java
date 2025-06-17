@@ -10,12 +10,14 @@ public class ProductPage {
     private final WebDriver driver;
     private final WebDriverWait wait;
 
-    // Locators
+    // LOCATORS
     private final By productTab = By.xpath("//a[contains(@href, '/product')]");
-    private final By searchBar = By.cssSelector("input[type='text']");
+
+    private final By homepageSearchBar = By.xpath("//input[@type='text' and contains(@placeholder,'Cari')]");
+    private final By productSearchBar = By.xpath("//*[@id='searchbar-container']/form/div/input");
+
     private final By searchButton = By.id("btn-search");
     private final By searchResultCard = By.cssSelector(".product-card");
-
     private final By noProductText = By.xpath("//*[contains(text(),'Produk tidak ditemukan') or contains(text(),'Product Not Found')]");
 
     // Filter locators
@@ -23,38 +25,59 @@ public class ProductPage {
     private final By minPriceInput = By.id("minPrice");
     private final By maxPriceInput = By.id("maxPrice");
     private final By sortByDropdown = By.id("sortBy");
-    private final By applyFilterButton = By.id("btn-apply-filter"); // optional, ganti ID sesuai real
+    private final By applyFilterButton = By.id("btn-apply-filter");
 
     public ProductPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-    // Navigation
+    // Determine which search bar to use based on the current page
+    private By getSearchBarLocator() {
+        String currentUrl = driver.getCurrentUrl();
+        if (currentUrl.contains("/product")) {
+            return productSearchBar;
+        } else {
+            return homepageSearchBar;
+        }
+    }
+
+    // NAVIGATION
     public void clickProductTab() {
         wait.until(ExpectedConditions.elementToBeClickable(productTab)).click();
     }
 
-    // Search
+    // SEARCH BAR INTERACTION
     public void focusSearchBar() {
-        wait.until(ExpectedConditions.elementToBeClickable(searchBar)).click();
+        try {
+            By locator = getSearchBarLocator();
+            WebElement input = wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", input);
+            wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
+        } catch (Exception e) {
+            throw new RuntimeException("Gagal menemukan atau mengklik search bar. Periksa locator atau load page-nya.", e);
+        }
     }
 
     public void enterSearchKeyword(String keyword) {
-        WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(searchBar));
-        input.clear();
-        input.sendKeys(keyword);
+        try {
+            By locator = getSearchBarLocator();
+            WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+            input.clear();
+            input.sendKeys(keyword);
+        } catch (Exception e) {
+            throw new RuntimeException("Gagal memasukkan kata kunci pencarian.", e);
+        }
     }
 
     public void clickSearch() {
         wait.until(ExpectedConditions.elementToBeClickable(searchButton)).click();
     }
 
-    // Filter
+    // FILTER
     public void selectCategory(String category) {
         WebElement dropdown = wait.until(ExpectedConditions.visibilityOfElementLocated(categoryDropdown));
-        Select select = new Select(dropdown);
-        select.selectByVisibleText(category);
+        new Select(dropdown).selectByVisibleText(category);
     }
 
     public void setMinPrice(String minPrice) {
@@ -71,8 +94,7 @@ public class ProductPage {
 
     public void selectSortBy(String sortBy) {
         WebElement dropdown = wait.until(ExpectedConditions.visibilityOfElementLocated(sortByDropdown));
-        Select select = new Select(dropdown);
-        select.selectByVisibleText(sortBy);
+        new Select(dropdown).selectByVisibleText(sortBy);
     }
 
     public void applyFilter() {
@@ -80,11 +102,11 @@ public class ProductPage {
             WebElement applyButton = wait.until(ExpectedConditions.elementToBeClickable(applyFilterButton));
             applyButton.click();
         } catch (TimeoutException e) {
-            // If no apply button (auto filter), do nothing
+            // If auto filter (no apply button), do nothing
         }
     }
 
-    // Verification
+    // VERIFICATION
     public boolean isProductFound() {
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(searchResultCard));
@@ -111,4 +133,24 @@ public class ProductPage {
             return false;
         }
     }
+    public void focusProductSearchBar() {
+        try {
+            WebElement input = wait.until(ExpectedConditions.presenceOfElementLocated(productSearchBar));
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", input);
+            wait.until(ExpectedConditions.elementToBeClickable(productSearchBar)).click();
+        } catch (Exception e) {
+            throw new RuntimeException("Gagal menemukan atau mengklik search bar di halaman produk.", e);
+        }
+    }
+
+    public void enterProductSearchKeyword(String keyword) {
+        try {
+            WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(productSearchBar));
+            input.clear();
+            input.sendKeys(keyword);
+        } catch (Exception e) {
+            throw new RuntimeException("Gagal memasukkan kata kunci pencarian di halaman produk.", e);
+        }
+    }
+
 }

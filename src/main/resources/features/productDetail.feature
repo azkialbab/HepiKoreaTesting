@@ -4,13 +4,14 @@ Feature: Product Detail
   Background:
     Given user berada di halaman homepage
 
-  Scenario: Berhasil menambahkan produk dari homepage
-    When user memilih produk bernama "Uniqlo" dari homepage
-    And user mengklik tombol Buy Produk
+  Scenario: Menambahkan produk dari Best Seller ke Cart
+    Given user berada di halaman homepage
+    When user memilih produk dari best seller
     Then user diarahkan ke halaman Detail Produk
     And user memilih jumlah produk yang valid
     And user mengklik tombol Add to Cart
     Then produk disimpan dan ditampilkan di halaman Cart
+
 
   Scenario: Berhasil menambahkan produk dari halaman daftar produk
     When user membuka tab Product dari navbar

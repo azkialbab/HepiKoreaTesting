@@ -1,47 +1,53 @@
 package stepdefinitions;
 
+import io.cucumber.java.Before;
+import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.time.Duration;
 
 public class BaseSteps {
     public static WebDriver driver;
+//    public static String baseUrl = "https://hepikorea.pad19.me";
+    public static String baseUrl = "https://hk.crazyz.biz.id";
 
     @Given("user membuka platform HepiKorea")
-    public void user_membuka_platform_hepikorea() {
-<<<<<<< HEAD
+    public void user_membuka_platform_hepi_korea() {
+        driver.get(baseUrl+"/auth/login");
+
+        // Tambahan: pastikan field email muncul
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@type='email']")));
+    }
+
+
+    @Before
+    public void setUp() {
         if (driver == null) {
-            ChromeOptions options = new ChromeOptions();
-=======
-        // Setup ChromeOptions
-        ChromeOptions options = new ChromeOptions();
->>>>>>> origin/master
+            // Jika kamu sudah pakai Selenium 4.6+, tidak perlu lagi setProperty
+            // System.setProperty("webdriver.chrome.driver", "path/to/chromedriver.exe");
 
-            // Nonaktifkan popup penyimpanan password
-            Map<String, Object> prefs = new HashMap<>();
-            prefs.put("credentials_enable_service", false);
-            prefs.put("profile.password_manager_enabled", false);
-            options.setExperimentalOption("prefs", prefs);
+            // Tambahkan preferensi untuk mengurangi keamanan saat testing
+            var options = new org.openqa.selenium.chrome.ChromeOptions();
+            options.addArguments("--disable-web-security");
+            options.addArguments("--allow-running-insecure-content");
 
-<<<<<<< HEAD
-            // Inisialisasi driver
             driver = new ChromeDriver(options);
             driver.manage().window().maximize();
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         }
+    }
 
-        // Selalu buka URL meskipun driver sudah ada (biar tidak stuck di halaman lain)
-        driver.get("https://hepikorea.pad19.me/");
-=======
-        // Inisialisasi WebDriver dengan opsi
-        driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
-        driver = new ChromeDriver();
-        driver.manage().window().maximize(); //
-        driver.get("https://hepikorea.pad19.me");
->>>>>>> origin/master
+    @After
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+            driver = null; // Reset agar scenario berikutnya bisa bikin instance baru
+        }
     }
 }

@@ -75,9 +75,21 @@ public class ProductPageAdmin {
     }
 
     public void clickSaveButton() {
-        WebElement saveBtn = wait.until(ExpectedConditions.elementToBeClickable(buttonSave));
-        saveBtn.click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("add_product")));
+        WebElement saveButton = wait.until(ExpectedConditions.presenceOfElementLocated(
+                By.xpath("//*[@id='add_product']/div/div/div[2]/div/form/div[5]/button")
+        ));
+
+        ((JavascriptExecutor) driver).executeScript(
+                "let dbg = document.querySelector('.phpdebugbar'); if (dbg) dbg.style.display='none';"
+        );
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", saveButton);
+        wait.until(ExpectedConditions.elementToBeClickable(saveButton));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", saveButton);
+
+        System.out.println("Tombol Simpan berhasil diklik");
     }
+
 
     public void addNewProduct(String name, String price, String category, String description) {
         clickTabProduct();

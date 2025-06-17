@@ -13,18 +13,11 @@ public class CartPage {
         driver.findElement(By.cssSelector("input[type='checkbox']")).click();
     }
 
-    public void clickCheckout() { driver.findElement(checkoutButton).click(); }
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> origin/master
+    public void clickCheckout() {
+        driver.findElement(checkoutButton).click();
+    }
+
     public boolean isAtCartPage() {
         return driver.findElement(By.id("cart-title")).isDisplayed();
     }
-
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 8e31d4374b7e76e4acea775f0ed31294b99ee066
->>>>>>> origin/master
 }

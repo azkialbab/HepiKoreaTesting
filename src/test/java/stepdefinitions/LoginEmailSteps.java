@@ -5,36 +5,21 @@ import org.example.LoginPage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import static org.junit.Assert.*;
-
 import java.time.Duration;
 
 public class LoginEmailSteps {
     WebDriver driver = BaseSteps.driver;
     LoginPage loginPage;
-    @Given("user membuka halaman login dengan URL langsung")
-    public void user_membuka_halaman_login_dengan_url_langsung() {
-        if (BaseSteps.driver == null) {
-            BaseSteps base = new BaseSteps();
-            base.user_membuka_platform_hepikorea();
-        }
 
-        driver = BaseSteps.driver;
+    @When("user memasukan email {string}")
+    public void user_memasukan_email(String email) {
         loginPage = new LoginPage(driver);
-
-        driver.get("https://hepikorea.pad19.me/auth/login");
-    }
-
-
-
-    @When("user memasukan email login {string}")
-    public void user_memasukan_email_login(String email) {
         loginPage.enterEmail(email);
     }
 
-    @And("user memasukan password login {string}")
-    public void user_memasukan_password_login(String password) {
+    @And("user memasukan password {string}")
+    public void user_memasukan_password(String password) {
         loginPage.enterPassword(password);
     }
 
@@ -43,46 +28,44 @@ public class LoginEmailSteps {
         loginPage.clickLogin();
     }
 
-    @Then("user mendapatkan respon login {string}")
+    @Then("user mendapatkan respon {string}")
     public void user_mendapatkan_respon(String expectedResult) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        String currentUrl = driver.getCurrentUrl();
-        boolean isStillOnLoginPage = currentUrl.contains("/auth/login");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        String expectedLower = expectedResult.toLowerCase();
 
-        System.out.println("Current URL: " + currentUrl);
-        System.out.println("Expected Result: " + expectedResult);
-
-        boolean isHomePage = currentUrl.equals("https://hepikorea.pad19.me/") ||
-                currentUrl.contains("/home") ||
-                currentUrl.contains("/dashboard");
-
+        boolean isStillOnLoginPage = driver.getCurrentUrl().contains("/auth/login");
         boolean isAlertPresent = false;
         String alertText = "";
+
         try {
             WebElement alertElement = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("alert-1")));
             alertText = alertElement.getText().toLowerCase().trim();
-            System.out.println("Alert Text: " + alertText);
             isAlertPresent = alertElement.isDisplayed();
+            System.out.println("Alert text: " + alertText);
         } catch (TimeoutException e) {
-            System.out.println("Alert not found.");
+            System.out.println("No alert element found.");
         }
-
-        String expectedLower = expectedResult.toLowerCase();
 
         if (expectedLower.contains("halaman homepage")) {
-            assertTrue("User seharusnya diarahkan ke halaman homepage", isHomePage);
-        } else if (expectedLower.contains("Email is not registered.")) {
-            assertTrue("Pesan error 'Email is not registered.' tidak muncul", isAlertPresent && alertText.contains("email is not registered"));
-        } else if (expectedLower.contains("" +
-                "Please fill out this field.")) {
+            try {
+                WebElement profileImage = wait.until(
+                        ExpectedConditions.visibilityOfElementLocated(
+                                By.xpath("//*[@id=\"app\"]/div/nav/div/div/div[1]/a/span")
+                        )
+                );
+                assertTrue("User tidak diarahkan ke halaman utama", profileImage.isDisplayed());
+            } catch (TimeoutException e) {
+                fail("Elemen profil tidak ditemukan, user mungkin belum berhasil login.");
+            }
+        } else if (expectedLower.contains("email is not registered")) {
+            assertTrue("Pesan error 'Email is not registered' tidak muncul",
+                    isAlertPresent && alertText.contains("email is not registered"));
+        } else if (expectedLower.contains("please fill out this field")) {
             assertTrue("Form kosong seharusnya tidak pindah halaman (masih di login)", isStillOnLoginPage);
         } else {
-            fail("Respon login tidak sesuai ekspektasi: " + expectedResult);
-<<<<<<< HEAD
+            fail("Respon login tidak dikenali: " + expectedResult);
         }
-=======
->>>>>>> origin/master
 
-        }
+        driver.quit();
     }
 }

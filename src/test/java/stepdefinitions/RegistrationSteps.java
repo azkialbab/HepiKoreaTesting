@@ -1,80 +1,83 @@
 package stepdefinitions;
 
 import io.cucumber.java.en.*;
+import org.example.LoginPage;
 import org.example.RegisterPage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 import static org.junit.Assert.*;
 
 public class RegistrationSteps {
-    WebDriver driver = BaseSteps.driver;
+    public static WebDriver driver = BaseSteps.driver;
+    LoginPage loginPage;
     RegisterPage registerPage;
 
-    @When("user mengklik tombol login untuk register di homepage")
-    public void user_mengklik_tombol_login_register_di_homepage() {
-        driver.findElement(By.id("btn-login")).click();
+
+    @And("user mengklik tombol Register")
+    public void user_mengklik_tombol_register() {
+        loginPage = new LoginPage(driver);
+        loginPage.clickRegisterLink();
     }
 
-    @Then("user diarahkan ke halaman login sebelum register")
-    public void user_diarahkan_ke_halaman_login_register() {
-        assertTrue(driver.getCurrentUrl().contains("login"));
+    @Then("user diarahkan ke dalam halaman registrasi")
+    public void user_diarahkan_ke_dalam_halaman_registrasi() {
+        String url = driver.getCurrentUrl();
+        assertTrue("Tidak diarahkan ke halaman register", url.contains("/auth/register"));
     }
 
-    @And("user mengklik tombol Register pada halaman login")
-    public void user_mengklik_tombol_register_dari_login() {
-        driver.findElement(By.id("btn-register")).click();
-    }
-
-    @Then("user diarahkan ke halaman registrasi")
-    public void user_diarahkan_ke_halaman_registrasi() {
-        assertTrue(driver.getCurrentUrl().contains("register"));
+    @Given("user berada di halaman registrasi")
+    public void user_berada_di_halaman_registrasi() {
+        registerPage = new RegisterPage(driver);
         registerPage = new RegisterPage(driver);
     }
 
-    @Given("user sudah berada di halaman registrasi")
-    public void user_sudah_di_halaman_registrasi() {
-        assertTrue(driver.getCurrentUrl().contains("register"));
+    @When("user memasukan fullname {string}")
+    public void user_memasukan_fullname(String fullname) {
         registerPage = new RegisterPage(driver);
-    }
-
-    @When("user mengisi fullname dengan {string}")
-    public void user_mengisi_fullname(String fullname) {
         registerPage.enterFullname(fullname);
     }
 
-    @And("user mengisi email dengan {string}")
-    public void user_mengisi_email(String email) {
+    @And("user memasukan email register {string}")
+    public void user_memasukan_email_register(String email) {
+        registerPage = new RegisterPage(driver);
         registerPage.enterEmail(email);
     }
 
-    @And("user mengisi password dengan {string}")
-    public void user_mengisi_password(String password) {
+    @And("user memasukan password register {string}")
+    public void user_memasukan_password_register(String password) {
+        registerPage = new RegisterPage(driver);
         registerPage.enterPassword(password);
     }
 
-    @And("user mengisi confirmed password dengan {string}")
-    public void user_mengisi_confirmed_password(String confirmPassword) {
+    @And("user memasukan confirmed password {string}")
+    public void user_memasukan_confirmed_password(String confirmPassword) {
+        registerPage = new RegisterPage(driver);
         registerPage.enterConfirmPassword(confirmPassword);
     }
 
-    @And("user mengklik tombol Register pada halaman registrasi")
-    public void user_mengklik_register_di_form() {
+    @And("user mengklik tombol Register di dalam halaman Register")
+    public void user_mengklik_tombol_register_di_dalam_halaman_register() {
+        registerPage = new RegisterPage(driver);
         registerPage.clickRegisterButton();
     }
 
-    @And("user memasukkan OTP yang dikirim ke email")
-    public void user_masukkan_otp_email() {
-        registerPage.enterOTP("123456");
+    @And("user memasukkan OTP yang dikirim via email")
+    public void user_memasukkan_otp_yang_dikirim_via_email() {
+        System.out.println("OTP dikirim via email (dummy step)");
     }
 
-    @Then("user mendapatkan respon registrasi {string}")
-    public void user_mendapatkan_respon_registrasi(String expectedResult) {
-        boolean isSuccess = registerPage.isOnHomepage();
-        if (expectedResult.contains("homepage")) {
-            assertTrue("User harus diarahkan ke homepage", isSuccess);
+    @Then("user mendapatkan respon hasil registrasi {string}")
+    public void user_mendapatkan_respon_hasil_registrasi(String expectedResult) {
+        String currentUrl = driver.getCurrentUrl();
+        if (expectedResult.contains("halaman homepage")) {
+            assertTrue("User tidak diarahkan ke homepage", currentUrl.contains("/home") || currentUrl.equals("https://hepikorea.pad19.me/"));
         } else {
-            assertTrue(driver.getPageSource().contains(expectedResult));
+            String pageSource = driver.getPageSource();
+            assertTrue("Pesan error tidak ditemukan", pageSource.toLowerCase().contains(expectedResult.toLowerCase()));
         }
         driver.quit();
     }

@@ -13,17 +13,6 @@ public class ReviewSteps {
     HomePage homePage = new HomePage(driver);
     HistoryPage historyPage = new HistoryPage(driver);
 
-    @Given("user berada di homepage")
-    public void user_berada_di_homepage() {
-        // asumsi sudah login via CommonSteps
-        assertTrue(driver.getCurrentUrl().contains("homepage"));
-    }
-
-    @When("user memilih tab Profile Picture pada navigation bar")
-    public void user_memilih_tab_profile_picture() {
-        homePage.clickProfileTab();
-    }
-
     @And("user memilih tab History pada dropdown Profile")
     public void user_memilih_tab_history() {
         homePage.clickHistoryTab();

@@ -19,6 +19,7 @@ public class HistoryPage {
     private final By reviewResult = By.cssSelector(".review-result"); // optional: update if needed
     private final By noOrderText = By.xpath("//*[contains(text(),'Tidak ada pesanan')]");
     private final By errorMessage = By.cssSelector(".error-message"); // optional: update if needed
+    private final By confirmArrivalButton = By.xpath("//button[contains(text(),'Confirm Arrival')]");
 
     public HistoryPage(WebDriver driver) {
         this.driver = driver;
@@ -65,5 +66,9 @@ public class HistoryPage {
 
     public boolean isOnHistoryPage() {
         return driver.getCurrentUrl().contains("/profile/history");
+    }
+
+    public void clickConfirmArrivalBtn() {
+        wait.until(ExpectedConditions.elementToBeClickable(confirmArrivalButton)).click();
     }
 }

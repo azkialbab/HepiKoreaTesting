@@ -2,6 +2,7 @@ package org.example;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
@@ -38,8 +39,15 @@ public class LoginPage {
     }
 
     public void clickRegisterLink() {
-        wait.until(ExpectedConditions.elementToBeClickable(registerLink)).click();
+        WebElement link = wait.until(ExpectedConditions.elementToBeClickable(registerLink));
+
+        ((org.openqa.selenium.JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", link);
+
+        link.click();
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='app']/main/div/h1")));
     }
+
 
     public void clickLoginWithGoogle() {
         wait.until(ExpectedConditions.elementToBeClickable(loginWithGoogleButton)).click();

@@ -10,11 +10,11 @@ public class RegisterPage {
         this.driver = driver;
     }
 
-    By fullnameField = By.name("fullname");
-    By emailField = By.name("email");
-    By passwordField = By.name("password");
-    By confirmPasswordField = By.name("confirmPassword");
-    By registerButton = By.id("btn-register-submit");
+    By fullnameField = By.xpath("//*[@id=\"app\"]/main/div/form/div[1]/input");
+    By emailField = By.xpath("//*[@id=\"app\"]/main/div/form/div[2]/input");
+    By passwordField = By.xpath("//*[@id=\"password\"]");
+    By confirmPasswordField = By.xpath("//*[@id=\"confirmPassword\"]");
+    By registerButton = By.xpath("//*[@id=\"app\"]/main/div/form/button");
     By otpField = By.name("otp");
 
     public void enterFullname(String name) {
